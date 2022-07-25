@@ -3,44 +3,42 @@ pipeline
     agent any
     stages
     {
-        stage('continuousdownload')
+        stage('ContinuousDownload')
         {
             steps
             {
-             git 'git 'https://github.com/intelliqittrainings/maven.git' 
+                git 'https://github.com/noor739/noorgithub.git'
             }
         }
-         stage('continuousbuild')
+        stage('ContinuousBuild')
         {
             steps
             {
-             sh 'mvn package'
+                sh 'mvn package'
             }
         }
-        stage('continuousdeployment')
+        stage('ContinuousDeployment')
         {
             steps
             {
-             deploy adapters: [tomcat9(credentialsId: 'bdc997f0-20fd-4058-a0b6-f5b404b678ec', path: '', url: 'http://172.31.85.246:8080')], contextPath: 'testapp', war: '**/*.war'
+               deploy adapters: [tomcat9(credentialsId: 'bdc997f0-20fd-4058-a0b6-f5b404b678ec', path: '', url: 'http://172.31.85.246:8080')], contextPath: 'testapp', war: '**/*.war'
             }
         }
-         stage('continuoustesting')
+        stage('Continuoustesting')
         {
             steps
             {
-             git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-             sh 'java -jar /home/ubuntu/.jenkins/workspace/declarativepipeline/testing.jar'
+               git 'https://github.com/intelliqittrainings/Functionaltesting.git'
+               sh 'java -jar /home/ubuntu/.jenkins/workspace/declarativepipeline3/testing.jar'
             }
         }
-         stage('continuousdelivery')
+        stage('Continuousdelivery')
         {
             steps
             {
-             input message: 'need to approval from delivery manager', submitter: 'srinivas'  
-             deploy adapters: [tomcat9(credentialsId: 'ea02b6de-cb1b-4b09-a6e1-e199550877e5', path: '', url: 'http://172.31.93.106:8080')], contextPath: 'testapp', war: '**/*.war'
+             deploy adapters: [tomcat9(credentialsId: 'ea02b6de-cb1b-4b09-a6e1-e199550877e5', path: '', url: 'http://172.31.93.106:8080')], contextPath: 'prodapp', war: '**/*.war' 
             }
         }
+       
     }
-}    
-    
-    
+}        
