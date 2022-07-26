@@ -3,28 +3,28 @@ pipeline
     agent any
     stages
     {
-        stage('ContinuousDownload')
+        stage('ContinuousDownload_master')
         {
             steps
             {
                 git 'https://github.com/noor739/noorgithub.git'
             }
         }
-        stage('ContinuousBuild')
+        stage('ContinuousBuild_master')
         {
             steps
             {
                 sh 'mvn package'
             }
         }
-        stage('ContinuousDeployment')
+        stage('ContinuousDeployment_master')
         {
             steps
             {
                deploy adapters: [tomcat9(credentialsId: 'bdc997f0-20fd-4058-a0b6-f5b404b678ec', path: '', url: 'http://172.31.85.246:8080')], contextPath: 'testapp', war: '**/*.war'
             }
         }
-        stage('Continuoustesting')
+        stage('Continuoustesting_master')
         {
             steps
             {
@@ -32,7 +32,7 @@ pipeline
                sh 'java -jar /home/ubuntu/.jenkins/workspace/declarativepipeline3/testing.jar'
             }
         }
-        stage('Continuousdelivery')
+        stage('Continuousdelivery_master')
         {
             steps
             {
